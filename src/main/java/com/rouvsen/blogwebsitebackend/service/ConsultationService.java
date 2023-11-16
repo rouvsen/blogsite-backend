@@ -1,6 +1,7 @@
 package com.rouvsen.blogwebsitebackend.service;
 
 import com.rouvsen.blogwebsitebackend.domain.Consultation;
+import com.rouvsen.blogwebsitebackend.email.service.EmailService;
 import com.rouvsen.blogwebsitebackend.mapper.ConsultationMapper;
 import com.rouvsen.blogwebsitebackend.repository.ConsultationRepository;
 import com.rouvsen.blogwebsitebackend.request.ConsultationRequest;
@@ -16,15 +17,19 @@ public class ConsultationService {
 
     private final ConsultationMapper mapper;
     private final ConsultationRepository repository;
+    private final EmailService emailService;
 
-    public ConsultationService(ConsultationMapper mapper, ConsultationRepository repository) {
+    public ConsultationService(ConsultationMapper mapper, ConsultationRepository repository, EmailService emailService) {
         this.mapper = mapper;
         this.repository = repository;
+        this.emailService = emailService;
     }
 
-    public ConsultationResponse addConsultationData(ConsultationRequest request) {
-        Consultation saved = repository.save(mapper.fromRequestToModel(request));
-        return mapper.fromModelToResponse(saved);
+    public Consultation addConsultationData(Consultation request) {
+        Consultation saved = repository.save(request);
+        System.out.println(saved);
+        emailService.sendMail(saved);
+        return request;
 //        {
 //            "fullName": "Example",
 //                "email": "example@.com",
