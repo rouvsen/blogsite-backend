@@ -13,7 +13,7 @@ public class ConsultationRequest {
     private String subject;
     private String phone;
     private String message;
-    private LocalDate date;
-    private LocalTime time;
+    private String date;
+    private String time;
 
 }
