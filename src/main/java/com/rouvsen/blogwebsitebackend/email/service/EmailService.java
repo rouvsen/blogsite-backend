@@ -1,6 +1,7 @@
 package com.rouvsen.blogwebsitebackend.email.service;
 
 import com.rouvsen.blogwebsitebackend.domain.Consultation;
+import com.rouvsen.blogwebsitebackend.domain.Question;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendMail(Consultation info) {
+    public void sendMailForConsultation(Consultation info) {
         try {
             MimeMessage mimeMessage1 = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper1 = new MimeMessageHelper(mimeMessage1, true);
@@ -32,7 +33,7 @@ public class EmailService {
             MimeMessageHelper mimeMessageHelper2 = new MimeMessageHelper(mimeMessage2, true);
 
             mimeMessageHelper2.setFrom(username);
-            mimeMessageHelper2.setTo(info.getEmail());
+            mimeMessageHelper2.setTo(username);
             mimeMessageHelper2.setSubject("New Consultation registration!");
             mimeMessageHelper2.setText(
                     String.format("""
@@ -56,6 +57,32 @@ public class EmailService {
             );
 
             javaMailSender.send(mimeMessage2);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send mail: " + e.getMessage(), e);
+        }
+    }
+
+    public void sendMailForQuestion(Question info) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+            mimeMessageHelper.setFrom(username);
+            mimeMessageHelper.setTo(username);
+            mimeMessageHelper.setSubject("New Question from Client!");
+            mimeMessageHelper.setText(
+                    String.format("""
+                        New Question Notification!
+                        Email: %s,
+                        FullName: %s
+                    """,
+                            info.getEmail(),
+                            info.getFullName()
+                    )
+            );
+
+            javaMailSender.send(mimeMessage);
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to send mail: " + e.getMessage(), e);
