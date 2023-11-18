@@ -4,7 +4,6 @@ import com.rouvsen.blogwebsitebackend.domain.Consultation;
 import com.rouvsen.blogwebsitebackend.email.service.EmailService;
 import com.rouvsen.blogwebsitebackend.mapper.ConsultationMapper;
 import com.rouvsen.blogwebsitebackend.repository.ConsultationRepository;
-import com.rouvsen.blogwebsitebackend.request.ConsultationRequest;
 import com.rouvsen.blogwebsitebackend.response.ConsultationResponse;
 import com.rouvsen.blogwebsitebackend.response.ConsultationResponseList;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class ConsultationService {
     public Consultation addConsultationData(Consultation request) {
         Consultation saved = repository.save(request);
         System.out.println(saved);
-        emailService.sendMail(saved);
+        emailService.sendMailForConsultation(saved);
         return request;
 //        {
 //            "fullName": "Example",

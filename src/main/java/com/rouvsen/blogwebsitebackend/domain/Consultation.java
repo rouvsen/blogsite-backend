@@ -1,5 +1,6 @@
 package com.rouvsen.blogwebsitebackend.domain;
 
+import com.rouvsen.blogwebsitebackend.domain.inter.MessagingInter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
