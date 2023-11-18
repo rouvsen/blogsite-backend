@@ -26,9 +26,8 @@ public class ConsultationService {
 
     public Consultation addConsultationData(Consultation request) {
         Consultation saved = repository.save(request);
-        System.out.println(saved);
         emailService.sendMailForConsultation(saved);
-        return request;
+        return saved;
 //        {
 //            "fullName": "Example",
 //                "email": "example@.com",
@@ -43,13 +42,11 @@ public class ConsultationService {
     public ConsultationResponseList getAllConsultations() {
         List<Consultation> all = repository.findAll();
         ConsultationResponseList consultationResponseList = new ConsultationResponseList();
-        List<ConsultationResponse> list = new ArrayList<>();
         if(!all.isEmpty()) {
-            for (Consultation c : all) {
-                list.add(mapper.fromModelToResponse(c));
-            }
+            consultationResponseList.setConsultationResponse(all);
+        } else {
+            consultationResponseList.setConsultationResponse(new ArrayList<>());
         }
-        consultationResponseList.setConsultationResponse(list);
         return consultationResponseList;
     }
 

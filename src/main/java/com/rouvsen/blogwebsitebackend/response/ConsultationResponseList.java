@@ -1,5 +1,6 @@
 package com.rouvsen.blogwebsitebackend.response;
 
+import com.rouvsen.blogwebsitebackend.domain.Consultation;
 import lombok.Data;
 
 import java.util.List;
@@ -7,6 +8,6 @@ import java.util.List;
 @Data
 public class ConsultationResponseList {
 
-    private List<ConsultationResponse> consultationResponse;
+    private List<Consultation> consultationResponse;
 
 }
