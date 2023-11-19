@@ -26,4 +26,13 @@ public class BlogController {
     public ResponseEntity<BlogResponseList> getBlogList() {
         return ResponseEntity.ok(service.getAllBlogs());
     }
+
+    @GetMapping("/{blogId}")
+    public ResponseEntity<Blog> getBlogById(@PathVariable Integer blogId) {
+        try {
+            return ResponseEntity.ok(service.getBlog(blogId));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

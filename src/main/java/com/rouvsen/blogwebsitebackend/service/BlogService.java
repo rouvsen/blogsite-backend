@@ -1,15 +1,15 @@
 package com.rouvsen.blogwebsitebackend.service;
 
 import com.rouvsen.blogwebsitebackend.domain.Blog;
-import com.rouvsen.blogwebsitebackend.domain.Consultation;
+import com.rouvsen.blogwebsitebackend.exception.BlogNotFoundException;
 import com.rouvsen.blogwebsitebackend.repository.BlogRepository;
 import com.rouvsen.blogwebsitebackend.response.BlogResponseList;
 import jakarta.transaction.Transactional;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BlogService {
@@ -22,7 +22,6 @@ public class BlogService {
 
     @Transactional
     public Blog createBlog(Blog request) {
-        //TODO: Write ImageSaver and downloader service&Api
         return repository.save(request);
 //         {
 //            "blogImage": "vvct345345v34c34c",
@@ -41,5 +40,13 @@ public class BlogService {
             blogResponseList.setBlogs(new ArrayList<>());
         }
         return blogResponseList;
+    }
+
+    public Blog getBlog(Integer blogId) {
+        Optional<Blog> byId = repository.findById(blogId);
+        if(byId.isEmpty()) {
+            throw new BlogNotFoundException("Blog doesn't exist..");
+        }
+        return byId.get();
     }
 }
